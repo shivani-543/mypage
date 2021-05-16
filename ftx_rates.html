@@ -87,23 +87,7 @@
         integrity="sha512-VMsZqo0ar06BMtg0tPsdgRADvl0kDHpTbugCBBrL55KmucH6hP9zWdLIWY//OTfMnzz6xWQRxQqsUFefwHuHyg=="
         crossorigin="anonymous"></script>
     <script>
-        var myHeaders = new Headers();
-        myHeaders.append("Origin", "https://mendu.netlify.app/");
-        var requestOptions = {
-            method: 'GET',
-            headers: myHeaders,
-            redirect: 'follow'
-        };
-
-        fetch("https://9bkomaiqh5.execute-api.us-east-1.amazonaws.com/dev/hourly", requestOptions)
-            .then(response => {
-                console.log('yolo');
-                response.text()
-            })
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
-
-
+        var coin_list = ['USD', 'USDT', 'DAI', 'EUR', 'AUD', 'PAXG', 'SLV', 'COIN']
 
         function getRandomColor() {
             var letters = '0123456789ABCDEF';
@@ -113,37 +97,55 @@
             }
             return color;
         }
-        const labels = ['1', '2', '3', '4', '5', '6', '7'];
-        const data = {
-            labels: labels,
-            datasets: [{
-                label: 'My First Dataset',
-                data: [65, 59, 80, 81, 56, 55, 40],
-                fill: false,
-                borderColor: getRandomColor(),
-                tension: 0.1
-            }, {
-                label: 'My sec Dataset',
-                data: [655, 559, 80, 851, 56, 555, 40],
-                fill: false,
-                borderColor: getRandomColor(),
-                tension: 0.1
-            }]
+
+        var myHeaders = new Headers();
+        myHeaders.append("Origin", "https://mendu.netlify.app/");
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
         };
 
-        var ctx = document.getElementById('myChart');
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: data,
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: false
+        fetch("https://9bkomaiqh5.execute-api.us-east-1.amazonaws.com/dev/hourly", requestOptions)
+            .then(response => response.text())
+            .then(body => {
+                raw_json = JSON.parse(body)
+                let labels = raw_json.map(entry => {
+                    let date = new Date(entry['UNIX'])
+                    return date.getDate() + '-' + date.getMonth()
+                })
+
+                console.log(labels);
+
+                let datasets = coin_list.map(coin => {
+                    return {
+                        label: coin,
+                        data: raw_json.map(entry => entry[coin]),
+                        fill: false,
+                        borderColor: getRandomColor(),
+                        tension: 0.1
                     }
-                }
-            }
-        })
+                })
+
+                var ctx = document.getElementById('myChart');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: datasets
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: false
+                            }
+                        }
+                    }
+                })
+
+            })
+            .catch(error => console.log('error', error));
     </script>
 
 

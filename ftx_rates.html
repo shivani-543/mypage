@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="mendu">
+    <meta name="description" content="FTX lending rates">
+    <meta name="keywords" content="">
+    <meta name="robots" content="noodp">
+    <meta name="theme-color" content="">
+
+
+    <title> mendu </title>
+
+
+    <link rel="stylesheet" href="./styles.css">
+
+    <meta name="msapplication-TileColor" content="#1b1c1d">
+    <meta name="theme-color" content="#1b1c1d">
+
+    <meta itemprop="name" content="">
+    <meta itemprop="description" content="Nice theme for homepages and blogs">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://themes.gohugo.io/theme/hugo-theme-hello-friend-ng/">
+
+    <meta name="twitter:title" content="">
+    <meta name="twitter:description" content="Nice theme for homepages and blogs">
+
+    <meta property="og:title" content="">
+    <meta property="og:description" content="Nice theme for homepages and blogs">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://themes.gohugo.io//theme/hugo-theme-hello-friend-ng/">
+    <meta property="og:image" content="https://themes.gohugo.io/theme/hugo-theme-hello-friend-ng/">
+
+</head>
+
+
+<body class="" data-new-gr-c-s-check-loaded="14.1010.0" data-gr-ext-installed="">
+    <div class="container">
+        <header class="header">
+            <span class="header__inner">
+                <a href="./index.html" style="text-decoration: none;">
+                    <div class="logo">
+                        <span class="logo__text">mendu</span>
+            </span>
+    </div>
+    </a>
+
+
+    <span class="header__right">
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="./ftx_rates.html">ftx_rates</a>
+                </li>
+            </ul>
+        </nav>
+
+    </span>
+    </span>
+    </header>
+
+
+    <div class="content">
+
+        <main aria-role="main">
+            <div style="padding: 1% 15% 3% 15%; width: 100vw; height: 100vh;">
+                <h3>FTX Lending rates</h3>
+                <div class="post-content">
+                    <p>...</p>
+
+
+                    <canvas id="myChart" width="80%" height="50%"></canvas>
+
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"
+        integrity="sha512-VMsZqo0ar06BMtg0tPsdgRADvl0kDHpTbugCBBrL55KmucH6hP9zWdLIWY//OTfMnzz6xWQRxQqsUFefwHuHyg=="
+        crossorigin="anonymous"></script>
+    <script>
+        var myHeaders = new Headers();
+        myHeaders.append("Origin", "https://");
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        fetch("https://9bkomaiqh5.execute-api.us-east-1.amazonaws.com/dev/hourly", requestOptions)
+            .then(response => {
+                console.log('yolo');
+                response.text()
+            })
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+
+
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+        const labels = ['1', '2', '3', '4', '5', '6', '7'];
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'My First Dataset',
+                data: [65, 59, 80, 81, 56, 55, 40],
+                fill: false,
+                borderColor: getRandomColor(),
+                tension: 0.1
+            }, {
+                label: 'My sec Dataset',
+                data: [655, 559, 80, 851, 56, 555, 40],
+                fill: false,
+                borderColor: getRandomColor(),
+                tension: 0.1
+            }]
+        };
+
+        var ctx = document.getElementById('myChart');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        })
+    </script>
+
+
+
+</body>
+
+</html>
